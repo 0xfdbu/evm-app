@@ -5,7 +5,7 @@ const Home = () => {
             <div className="row justify-content-center">
           <div className="col-lg-8">
             <div className="main-text">
-            Start Building on Ton!
+            Web3 on ethereum!
             </div>
             </div>
           </div>
