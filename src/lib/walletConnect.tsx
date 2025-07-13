@@ -6,12 +6,10 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { WagmiAdapter } from '@reown/appkit-adapter-wagmi';
 import type { ReactNode } from 'react';
 
-import type { AppKitNetwork } from '@reown/appkit/types'; // Make sure you have this type
-
 // 1. React query client
 const queryClient = new QueryClient();
 
-// 2. Your Reown project ID (replace with your real one)
+// 2. Your Reown project ID
 const projectId = 'be181770445c4fc15c70da027d287221';
 
 // 3. App metadata
@@ -22,8 +20,8 @@ const metadata = {
   icons: ['https://avatars.githubusercontent.com/u/179229932'],
 };
 
-// 4. Declare networks array
-const networks = [mainnet, arbitrum] as [AppKitNetwork, ...AppKitNetwork[]];
+// 4. Declare networks array with correct type
+const networks = [mainnet, arbitrum] as [typeof mainnet, typeof arbitrum];
 
 // 5. Initialize Adapter
 const wagmiAdapter = new WagmiAdapter({ networks, projectId, ssr: true });
@@ -39,11 +37,10 @@ createAppKit({
 
 // 7. AppKitProvider
 export function AppKitProvider({ children }: { children: ReactNode }) {
-  // If wagmiAdapter.wagmiConfig.chains does not exist, use networks
   return (
     <QueryClientProvider client={queryClient}>
       <WagmiProvider config={wagmiAdapter.wagmiConfig}>
-        <RainbowKitProvider chains={networks}>
+        <RainbowKitProvider>
           {children}
         </RainbowKitProvider>
       </WagmiProvider>
