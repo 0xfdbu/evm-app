@@ -1,53 +1,52 @@
-import React, { type ReactNode } from 'react';
 import { createAppKit } from '@reown/appkit/react';
-
 import { WagmiProvider } from 'wagmi';
 import { RainbowKitProvider } from '@rainbow-me/rainbowkit';
-import { arbitrum, mainnet } from '@reown/appkit/networks';
+import { mainnet, arbitrum } from '@reown/appkit/networks';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { WagmiAdapter } from '@reown/appkit-adapter-wagmi';
+import type { ReactNode } from 'react';
 
-// 0. Setup queryClient
+// 1. QueryClient setup
 const queryClient = new QueryClient();
 
-// 1. Replace with your actual Project ID
+// 2. Replace with your actual Project ID
 const projectId = 'be181770445c4fc15c70da027d287221';
 
-// 2. Metadata
+// 3. Metadata
 const metadata = {
   name: 'AppKit',
   description: 'AppKit Example',
   url: 'https://evm-app.vercel.app/',
-  icons: ['https://avatars.githubusercontent.com/u/179229932']
+  icons: ['https://avatars.githubusercontent.com/u/179229932'],
 };
 
-// 3. Networks
-const networks = [mainnet, arbitrum];
+// 4. Networks
+const networks = [mainnet, arbitrum] as [typeof mainnet, typeof arbitrum];
 
-// 4. Wagmi Adapter
+// 5. Create Wagmi Adapter
 const wagmiAdapter = new WagmiAdapter({
   networks,
   projectId,
-  ssr: true
+  ssr: true,
 });
 
-// 5. Create AppKit modal
+// 6. Init AppKit modal
 createAppKit({
   adapters: [wagmiAdapter],
   networks,
   projectId,
   metadata,
   features: {
-    analytics: true
-  }
+    analytics: true,
+  },
 });
 
-// ✅ Correct provider order: QueryClient → Wagmi → RainbowKit
+// 7. AppKitProvider with correct order
 export function AppKitProvider({ children }: { children: ReactNode }) {
   return (
     <QueryClientProvider client={queryClient}>
       <WagmiProvider config={wagmiAdapter.wagmiConfig}>
-        <RainbowKitProvider chains={wagmiAdapter.chains}>
+        <RainbowKitProvider chains={wagmiAdapter.wagmiConfig.chains}>
           {children}
         </RainbowKitProvider>
       </WagmiProvider>
