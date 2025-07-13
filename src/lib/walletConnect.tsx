@@ -1,4 +1,4 @@
-import { createAppKit } from '@reown/appkit/react';
+import { createAppKit, type AppKitNetwork } from '@reown/appkit/react';
 import { WagmiProvider } from 'wagmi';
 import { RainbowKitProvider } from '@rainbow-me/rainbowkit';
 import { mainnet, arbitrum } from '@reown/appkit/networks';
@@ -20,8 +20,8 @@ const metadata = {
   icons: ['https://avatars.githubusercontent.com/u/179229932'],
 };
 
-// 4. Networks
-const networks = [mainnet, arbitrum] as [typeof mainnet, typeof arbitrum];
+// 4. Networks — force type assertion to satisfy `[AppKitNetwork, ...AppKitNetwork[]]`
+const networks = [mainnet, arbitrum] as [AppKitNetwork, ...AppKitNetwork[]];
 
 // 5. Create Wagmi Adapter
 const wagmiAdapter = new WagmiAdapter({
@@ -41,7 +41,7 @@ createAppKit({
   },
 });
 
-// 7. AppKitProvider with correct order
+// 7. AppKitProvider with correct provider order
 export function AppKitProvider({ children }: { children: ReactNode }) {
   return (
     <QueryClientProvider client={queryClient}>
