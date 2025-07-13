@@ -1,0 +1,14 @@
+<svg width="1440" height="218" viewBox="0 0 1440 218" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <path d="M2057 -9.21045H-88.0039V217.79H2057V-9.21045Z" fill="#F8F8F8"/>
+
+  <!-- Vertical dashed lines -->
+  <path d="M180.449 -8.3374V8443.92" stroke="#E1E1E1" stroke-dasharray="2 2"/>
+  <path d="M448.466 -8.3374V8443.92" stroke="#E1E1E1" stroke-dasharray="2 2"/>
+  <path d="M716.48 -8.3374V8443.92" stroke="#E1E1E1" stroke-dasharray="2 2"/>
+  <path d="M984.496 -8.3374V8443.92" stroke="#E1E1E1" stroke-dasharray="2 2"/>
+  <path d="M1252.51 -8.3374V8443.92" stroke="#E1E1E1" stroke-dasharray="2 2"/>
+
+  <!-- Horizontal dashed lines (spaced like vertical ones) -->
+  <path d="M-88 160H2057" stroke="#E1E1E1" stroke-dasharray="2 2"/>
+</svg>

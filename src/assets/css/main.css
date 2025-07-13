@@ -1,0 +1,60 @@
+
+body {
+    font-family: 'Inter', sans-serif;
+  }
+  .home-wrapper {
+    position: relative;
+    overflow: hidden; /* optional, prevents overflow */
+  }
+  
+  .home-wrapper::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url("../svg/pattern.svg");
+    opacity: 1; /* adjust opacity here */
+    z-index: 0;
+  }
+  
+  .home-wrapper > * {
+    position: relative;
+    z-index: 1; /* keep content above background */
+  }
+  
+header{
+}
+.app-header {
+    max-width: 1440px;
+    width: 100%;
+    margin: auto;
+    padding: 1rem; 
+}
+  #ton-connect-button button{
+    border-radius: 16px ;
+    background-color: #1F1F1F;
+    font-weight: 700 !important;
+    padding: 1.2em !important;
+  }
+  .main-text{
+    text-align: center;
+    font-size: 72px;
+    font-weight: 800;  
+}
+  .layout-container{
+    margin: 2rem auto 1rem auto;
+    max-width: 1440px;
+    width: 100%;
+    padding: 1rem; 
+  }
+  footer{
+
+  }
+  .app-footer{
+    margin: auto;
+    padding: 1rem; 
+    max-width: 1440px;
+    width: 100%;
+  }
