@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import '@fontsource/inter/index.css';
 import './assets/css/main.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '@rainbow-me/rainbowkit/styles.css'; // ✅ Required for RainbowKit UI
+import '@rainbow-me/rainbowkit/styles.css';
 
 import { AppKitProvider } from './lib/walletConnect';
 import { AppRouterProvider } from './routes';
