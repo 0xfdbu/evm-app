@@ -1,4 +1,4 @@
-import { createAppKit, type AppKitNetwork } from '@reown/appkit/react';
+import { createAppKit } from '@reown/appkit/react';
 import { WagmiProvider } from 'wagmi';
 import { RainbowKitProvider } from '@rainbow-me/rainbowkit';
 import { mainnet, arbitrum } from '@reown/appkit/networks';
@@ -6,31 +6,27 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { WagmiAdapter } from '@reown/appkit-adapter-wagmi';
 import type { ReactNode } from 'react';
 
-// ✅ QueryClient setup
+// 1. React query client
 const queryClient = new QueryClient();
 
-// ✅ Use your real project ID
+// 2. Your Reown project ID (replace with your real one)
 const projectId = 'be181770445c4fc15c70da027d287221';
 
-// ✅ App metadata
+// 3. App metadata
 const metadata = {
   name: 'AppKit',
   description: 'AppKit Example',
-  url: 'https://evm-app.vercel.app/',
+  url: 'https://evm-app.vercel.app',
   icons: ['https://avatars.githubusercontent.com/u/179229932'],
 };
 
-// ✅ Correct typing for networks array
-const networks = [mainnet, arbitrum] as [AppKitNetwork, ...AppKitNetwork[]];
+// 4. Declare networks array
+const networks = [mainnet, arbitrum];
 
-// ✅ Initialize WagmiAdapter
-const wagmiAdapter = new WagmiAdapter({
-  networks,
-  projectId,
-  ssr: true,
-});
+// 5. Initialize Adapter
+const wagmiAdapter = new WagmiAdapter({ networks, projectId, ssr: true });
 
-// ✅ Initialize AppKit
+// 6. Initialize AppKit modal
 createAppKit({
   adapters: [wagmiAdapter],
   networks,
@@ -39,6 +35,7 @@ createAppKit({
   features: { analytics: true },
 });
 
+// 7. AppKitProvider
 export function AppKitProvider({ children }: { children: ReactNode }) {
   return (
     <QueryClientProvider client={queryClient}>
