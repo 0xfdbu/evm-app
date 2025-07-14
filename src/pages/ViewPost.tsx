@@ -7,20 +7,20 @@ import { waitForTransactionReceipt } from 'wagmi/actions';
 import { decodeEventLog } from 'viem';
 
 type ForumPost = {
-  id: number;
+  id: bigint;
   title: string;
   content: string;
   author: string;
-  timestamp: number | string;
-  commentCount: number;
+  timestamp: bigint;
+  commentCount: bigint;
 };
 
 type ForumComment = {
-  id: number;
-  postId: number;
+  id: bigint;
+  postId: bigint;
   content: string;
   author: string;
-  timestamp: number | string;
+  timestamp: bigint;
 };
 
 const pageSize = 5;
@@ -48,7 +48,9 @@ const ViewPost = () => {
   const post = rawPost as ForumPost | undefined;
 
   // Get paginated comments for the post
-  const commentOffset = (commentPage - 1) * pageSize;
+  const totalComments = Number(post?.commentCount ?? 0);
+  const commentOffset = (Number(commentPage) - 1) * pageSize;
+
   const { data: rawComments } = useReadContract({
     address: forumContract.address,
     abi: forumContract.abi,
@@ -59,7 +61,6 @@ const ViewPost = () => {
   const paginatedComments = (rawComments as ForumComment[] | undefined) || [];
 
   // Get comment count for pagination
-  const totalComments = post?.commentCount || 0;
   const totalPages = Math.max(1, Math.ceil(totalComments / pageSize));
 
   const handleAddComment = async () => {
@@ -152,7 +153,7 @@ const ViewPost = () => {
       {paginatedComments.length > 0 ? (
         <>
           {paginatedComments.map((comment) => (
-            <div key={comment.id} className="card mb-2">
+            <div key={Number(comment.id)} className="card mb-2">
               <div className="card-body">
                 <p className="card-text">{comment.content ?? 'No content'}</p>
                 <p className="text-muted">
