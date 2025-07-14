@@ -6,6 +6,19 @@ import { useState, useMemo, useEffect } from 'react';
 import { waitForTransactionReceipt } from 'wagmi/actions';
 import { decodeEventLog } from 'viem';
 
+type ForumPost = {
+  title: string;
+  content: string;
+  author: string;
+  timestamp: number | string;
+};
+
+type ForumComment = {
+  content: string;
+  author: string;
+  timestamp: number | string;
+};
+
 const ViewPost = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -18,42 +31,46 @@ const ViewPost = () => {
 
   const { isConnected } = useAccount();
   const { writeContractAsync } = useWriteContract();
-  const { data: post } = useReadContract({
+
+  // Manual assertion
+  const { data: rawPost } = useReadContract({
     address: forumContract.address,
     abi: forumContract.abi,
     functionName: 'getPost',
     args: [postId],
     query: { enabled: !!postId },
   });
-  
-  const { data: allComments, refetch: refetchComments } = useReadContract({
+  const post = rawPost as ForumPost | undefined;
+
+  const { data: rawComments, refetch: refetchComments } = useReadContract({
     address: forumContract.address,
     abi: forumContract.abi,
     functionName: 'getComments',
     args: [postId],
     query: { enabled: !!postId },
   });
+  const allComments = rawComments as ForumComment[] | undefined;
 
   const paginatedComments = useMemo(() => {
-    if (!allComments) return [];
+    if (!allComments || !Array.isArray(allComments)) return [];
     const start = (commentPage - 1) * pageSize;
     return allComments.slice(start, start + pageSize);
   }, [allComments, commentPage]);
 
-  const totalPages = allComments ? Math.ceil(allComments.length / pageSize) : 1;
+  const totalPages = allComments && Array.isArray(allComments) ? Math.ceil(allComments.length / pageSize) : 1;
 
   const handleAddComment = async () => {
     if (!comment) return alert('Please enter a comment');
     try {
       setIsSubmitting(true);
-  
+
       const hash = await writeContractAsync({
         address: forumContract.address,
         abi: forumContract.abi,
         functionName: 'addComment',
         args: [postId, comment],
       });
-  
+
       setTxHash(hash);
     } catch (error) {
       console.error('Error adding comment:', error);
@@ -121,23 +138,23 @@ const ViewPost = () => {
         Go back
       </button>
 
-      <h2>{post.title}</h2>
-      <p>{post.content}</p>
+      <h2>{post?.title ?? 'No title'}</h2>
+      <p>{post?.content ?? 'No content'}</p>
       <p className="text-muted">
-        By {post.author} • {formatDistanceToNow(new Date(Number(post.timestamp) * 1000))} ago
+        By {post?.author ?? 'Unknown author'} • {post?.timestamp ? formatDistanceToNow(new Date(Number(post.timestamp) * 1000)) : ''} ago
       </p>
 
       <hr />
       <h5>Comments</h5>
       {paginatedComments.length > 0 ? (
         <>
-          {paginatedComments.map((comment: any, index: number) => (
+          {paginatedComments.map((comment, index) => (
             <div key={index} className="card mb-2">
               <div className="card-body">
-                <p className="card-text">{comment.content}</p>
+                <p className="card-text">{comment.content ?? 'No content'}</p>
                 <p className="text-muted">
-                  By {comment.author} •{' '}
-                  {formatDistanceToNow(new Date(Number(comment.timestamp) * 1000))} ago
+                  By {comment.author ?? 'Unknown'} •{' '}
+                  {comment.timestamp ? formatDistanceToNow(new Date(Number(comment.timestamp) * 1000)) : ''}
                 </p>
               </div>
             </div>
