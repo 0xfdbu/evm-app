@@ -3,7 +3,6 @@ import { Header } from '../components/main/Header';
 import { Footer } from '../components/main/Footer';
 
 const Layout = () => {
-  const location = useLocation();
 
   return (
     <div className={`d-flex flex-column min-vh-100 home-wrapper`}>

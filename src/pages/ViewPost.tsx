@@ -18,7 +18,6 @@ const ViewPost = () => {
 
   const { isConnected } = useAccount();
   const { writeContractAsync } = useWriteContract();
-
   const { data: post } = useReadContract({
     address: forumContract.address,
     abi: forumContract.abi,
@@ -26,7 +25,7 @@ const ViewPost = () => {
     args: [postId],
     query: { enabled: !!postId },
   });
-
+  
   const { data: allComments, refetch: refetchComments } = useReadContract({
     address: forumContract.address,
     abi: forumContract.abi,
@@ -47,14 +46,14 @@ const ViewPost = () => {
     if (!comment) return alert('Please enter a comment');
     try {
       setIsSubmitting(true);
-
+  
       const hash = await writeContractAsync({
         address: forumContract.address,
         abi: forumContract.abi,
         functionName: 'addComment',
         args: [postId, comment],
       });
-
+  
       setTxHash(hash);
     } catch (error) {
       console.error('Error adding comment:', error);
