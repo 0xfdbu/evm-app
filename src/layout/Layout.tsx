@@ -7,7 +7,7 @@ const Layout = () => {
   const isHome = location.pathname === '/';
 
   return (
-    <div className={`d-flex flex-column min-vh-100 ${isHome ? 'home-wrapper' : ''}`}>
+    <div className={`d-flex flex-column min-vh-100 home-wrapper`}>
       <Header />
       <main className="flex-grow-1 py-4">
         <div className="layout-container">

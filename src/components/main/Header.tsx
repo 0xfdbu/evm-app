@@ -6,7 +6,7 @@ export const Header = () => {
       <div className="app-header">
         <div className="d-flex justify-content-between align-items-center">
           <div className="d-flex align-items-center gap-2">
-            <h3 className="">Marketplace</h3>
+            <h3 className="">Web3 Forum</h3>
           </div>
           <ConnectButton />
         </div>
