@@ -83,8 +83,10 @@ const PostForm = () => {
   }, [txHash, navigate]);
 
   return (
-    <div className="mb-4">
-      <h4>Create a New Post</h4>
+    <div className="">
+        <div className='d-flex justify-content-between align-items-center my-4'>
+        <h2 className='mb-0'>Create a New Post</h2>
+        </div>
       <div className="mb-3">
         <input
           type="text"
@@ -96,13 +98,14 @@ const PostForm = () => {
         />
       </div>
       <div className="mb-3">
-        <textarea
-          className="form-control"
-          placeholder="Post content"
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-          disabled={isPosting}
-        />
+      <textarea
+  className="form-control"
+  placeholder="Post content"
+  value={content}
+  onChange={(e) => setContent(e.target.value)}
+  disabled={isPosting}
+  rows={8} // Adjust number of rows
+/>
       </div>
       <button
         className="btn btn-primary"

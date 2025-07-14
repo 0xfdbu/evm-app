@@ -50,7 +50,7 @@ const Home = () => {
   return (
     <div className="container">
       <div className="d-flex justify-content-between align-items-center my-4">
-        <h2>Web3 Forum</h2>
+        <h2 className='mb-0'></h2>
         {isConnected && (
           <button className="btn btn-primary" onClick={() => navigate('/create')}>
             + New Post
@@ -93,7 +93,7 @@ const Home = () => {
       {!search.trim() && (
         <div className="d-flex justify-content-between align-items-center mt-4">
           <button
-            className="btn btn-outline-secondary"
+            className="btn btn-primary"
             onClick={() => setPage((p) => Math.max(1, p - 1))}
             disabled={page === 1}
           >
@@ -101,7 +101,7 @@ const Home = () => {
           </button>
           <span>Page {page} of {totalPages}</span>
           <button
-            className="btn btn-outline-secondary"
+            className="btn btn-primary"
             onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
             disabled={page === totalPages || totalPages === 0}
           >

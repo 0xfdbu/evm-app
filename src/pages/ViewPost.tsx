@@ -135,13 +135,14 @@ const ViewPost = () => {
 
   return (
     <div className="container mt-4">
+        <div className='d-flex'>
       <button
-        className="btn btn-primary mb-3"
+        className="btn btn-primary mb-3 ms-auto"
         onClick={() => navigate('/')}
       >
         Go back
       </button>
-
+      </div>
       <h2>{post?.title ?? 'No title'}</h2>
       <p>{post?.content ?? 'No content'}</p>
       <p className="text-muted">
