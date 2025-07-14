@@ -151,7 +151,7 @@ const ViewPost = () => {
       <h5>Comments</h5>
       {paginatedComments.length > 0 ? (
         <>
-          {paginatedComments.map((comment, index) => (
+          {paginatedComments.map((comment) => (
             <div key={comment.id} className="card mb-2">
               <div className="card-body">
                 <p className="card-text">{comment.content ?? 'No content'}</p>
