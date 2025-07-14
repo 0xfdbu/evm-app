@@ -20,17 +20,16 @@ const ViewPost = () => {
   const { writeContractAsync } = useWriteContract();
 
   const { data: post } = useReadContract({
-    ...forumContract,
+    address: forumContract.address,
+    abi: forumContract.abi,
     functionName: 'getPost',
     args: [postId],
     query: { enabled: !!postId },
   });
 
-  const {
-    data: allComments,
-    refetch: refetchComments,
-  } = useReadContract({
-    ...forumContract,
+  const { data: allComments, refetch: refetchComments } = useReadContract({
+    address: forumContract.address,
+    abi: forumContract.abi,
     functionName: 'getComments',
     args: [postId],
     query: { enabled: !!postId },
@@ -50,7 +49,8 @@ const ViewPost = () => {
       setIsSubmitting(true);
 
       const hash = await writeContractAsync({
-        ...forumContract,
+        address: forumContract.address,
+        abi: forumContract.abi,
         functionName: 'addComment',
         args: [postId, comment],
       });

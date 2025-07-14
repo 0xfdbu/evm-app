@@ -8,7 +8,8 @@ import type { ReactNode } from 'react';
 import { createConfig, http } from 'wagmi';
 import { defineChain } from 'viem';
 import ForumABI from '../../ForumABI.json'; // Import the ABI of the Forum contract
-
+import { metaMask } from 'wagmi/connectors';
+import { walletConnect } from 'wagmi/connectors';
 // 1. React query client
 const queryClient = new QueryClient();
 
@@ -58,7 +59,7 @@ const wagmiConfig = createConfig({
   transports: {
     [opSepolia.id]: http(),
   },
-  connectors: wagmiAdapter.wagmiConfig.connectors,
+  connectors: [metaMask(), walletConnect({ projectId: '...' })]
 });
 
 // 8. Initialize AppKit modal
