@@ -19,15 +19,16 @@ const PostForm = () => {
       setIsPosting(true);
 
       const hash = await writeContractAsync({
-        ...forumContract,
+        address: forumContract.address, // <-- explicit!
+        abi: forumContract.abi,
         functionName: 'createPost',
-        args: [title, content],
+        args: [title, content], // <-- check these types!
       });
 
       setTxHash(hash);
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error creating post:', error);
-      alert('Transaction was rejected or failed to send.');
+      alert(`Transaction failed: ${error?.message ?? 'Unknown error'}`);
       setIsPosting(false);
     }
   };
@@ -53,11 +54,10 @@ const PostForm = () => {
                 data: log.data,
               });
 
-              // Get the post ID from decoded args
-              postId = (decoded.args as any).id.toString();
+              postId = (decoded.args as any).id?.toString();
               break;
             } catch {
-              continue; // Not the event we're looking for
+              continue;
             }
           }
 
@@ -70,9 +70,9 @@ const PostForm = () => {
         } else {
           alert('Transaction failed.');
         }
-      } catch (err) {
+      } catch (err: any) {
         console.error('Error waiting for receipt:', err);
-        alert('Error confirming transaction.');
+        alert(`Error confirming transaction: ${err?.message ?? 'Unknown error'}`);
       } finally {
         setIsPosting(false);
         setTxHash(null);

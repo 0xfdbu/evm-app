@@ -2,22 +2,28 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { forumContract, wagmiConfig } from '../lib/walletConnect';
 import { useReadContract, useWriteContract, useAccount } from 'wagmi';
 import { formatDistanceToNow } from 'date-fns';
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { waitForTransactionReceipt } from 'wagmi/actions';
 import { decodeEventLog } from 'viem';
 
 type ForumPost = {
+  id: number;
   title: string;
+  content: string;
+  author: string;
+  timestamp: number | string;
+  commentCount: number;
+};
+
+type ForumComment = {
+  id: number;
+  postId: number;
   content: string;
   author: string;
   timestamp: number | string;
 };
 
-type ForumComment = {
-  content: string;
-  author: string;
-  timestamp: number | string;
-};
+const pageSize = 5;
 
 const ViewPost = () => {
   const { id } = useParams();
@@ -27,12 +33,11 @@ const ViewPost = () => {
   const [commentPage, setCommentPage] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [txHash, setTxHash] = useState<`0x${string}` | null>(null);
-  const pageSize = 5;
 
   const { isConnected } = useAccount();
   const { writeContractAsync } = useWriteContract();
 
-  // Manual assertion
+  // Get the post
   const { data: rawPost } = useReadContract({
     address: forumContract.address,
     abi: forumContract.abi,
@@ -42,22 +47,20 @@ const ViewPost = () => {
   });
   const post = rawPost as ForumPost | undefined;
 
-  const { data: rawComments, refetch: refetchComments } = useReadContract({
+  // Get paginated comments for the post
+  const commentOffset = (commentPage - 1) * pageSize;
+  const { data: rawComments } = useReadContract({
     address: forumContract.address,
     abi: forumContract.abi,
-    functionName: 'getComments',
-    args: [postId],
+    functionName: 'getCommentsPaginated',
+    args: [postId, commentOffset, pageSize],
     query: { enabled: !!postId },
   });
-  const allComments = rawComments as ForumComment[] | undefined;
+  const paginatedComments = (rawComments as ForumComment[] | undefined) || [];
 
-  const paginatedComments = useMemo(() => {
-    if (!allComments || !Array.isArray(allComments)) return [];
-    const start = (commentPage - 1) * pageSize;
-    return allComments.slice(start, start + pageSize);
-  }, [allComments, commentPage]);
-
-  const totalPages = allComments && Array.isArray(allComments) ? Math.ceil(allComments.length / pageSize) : 1;
+  // Get comment count for pagination
+  const totalComments = post?.commentCount || 0;
+  const totalPages = Math.max(1, Math.ceil(totalComments / pageSize));
 
   const handleAddComment = async () => {
     if (!comment) return alert('Please enter a comment');
@@ -111,7 +114,7 @@ const ViewPost = () => {
 
           alert('Comment added successfully!');
           setComment('');
-          refetchComments();
+          // No need to refetch, wagmi will auto-refresh on chain update
         } else {
           alert('Transaction failed.');
         }
@@ -125,7 +128,7 @@ const ViewPost = () => {
     };
 
     waitForConfirmation();
-  }, [txHash, refetchComments]);
+  }, [txHash]);
 
   if (!post) return <p>Loading post...</p>;
 
@@ -149,7 +152,7 @@ const ViewPost = () => {
       {paginatedComments.length > 0 ? (
         <>
           {paginatedComments.map((comment, index) => (
-            <div key={index} className="card mb-2">
+            <div key={comment.id} className="card mb-2">
               <div className="card-body">
                 <p className="card-text">{comment.content ?? 'No content'}</p>
                 <p className="text-muted">

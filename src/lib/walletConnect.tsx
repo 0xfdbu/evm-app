@@ -87,7 +87,7 @@ export function AppKitProvider({ children }: { children: ReactNode }) {
 
 // Export contract configuration for use in components
 export const forumContract = {
-  address: '0x82aFB7982C61F36B102234A46Ba2bb8bE8a0cb16' as `0x${string}`,
+  address: '0xd891A8dA619EDcb01c6cFc5599C62A0082951212' as `0x${string}`,
   abi: ForumABI as Abi,
 };
 
