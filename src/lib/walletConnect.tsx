@@ -7,6 +7,7 @@ import { WagmiAdapter } from '@reown/appkit-adapter-wagmi';
 import type { ReactNode } from 'react';
 import { createConfig, http } from 'wagmi';
 import { defineChain } from 'viem';
+import type { Abi } from 'viem';
 import ForumABI from '../../ForumABI.json'; // Import the ABI of the Forum contract
 import { metaMask } from 'wagmi/connectors';
 import { walletConnect } from 'wagmi/connectors';
@@ -87,7 +88,7 @@ export function AppKitProvider({ children }: { children: ReactNode }) {
 // Export contract configuration for use in components
 export const forumContract = {
   address: '0x82aFB7982C61F36B102234A46Ba2bb8bE8a0cb16' as `0x${string}`,
-  abi: ForumABI,
+  abi: ForumABI as Abi,
 };
 
 export { wagmiConfig };

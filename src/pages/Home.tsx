@@ -8,18 +8,20 @@ const Home = () => {
   const navigate = useNavigate();
 
   const { data: postCount } = useReadContract({
-    ...forumContract,
+    address: forumContract.address,
+    abi: forumContract.abi,
     functionName: 'getPostCount',
   });
 
-  const recentCount = 5; // how many recent posts to display
+  const recentCount = 5;
   const totalPosts = Number(postCount) || 0;
   const startIndex = Math.max(0, totalPosts - recentCount);
 
   const { data: postsData } = useReadContracts({
     contracts: postCount
       ? Array.from({ length: Math.min(totalPosts, recentCount) }, (_, i) => ({
-          ...forumContract,
+          address: forumContract.address,
+          abi: forumContract.abi, // is now correct type!
           functionName: 'getPost',
           args: [startIndex + i + 1],
         }))
