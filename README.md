@@ -4,7 +4,7 @@ A lightweight, decentralized forum built on Optimism and other EVM-compatible ne
 
 ## 🌐 Live Demo
 
-> Coming soon or replace with your deployed frontend URL.
+https://evm-app.vercel.app/
 
 ## 🚀 Features
 
