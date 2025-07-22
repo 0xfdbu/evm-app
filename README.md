@@ -1,69 +1,60 @@
-# React + TypeScript + Vite
+# Web3 Simple Forum 🧵
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A lightweight, decentralized forum built on Optimism and other EVM-compatible networks. Users can create posts, view discussions, and interact with content on-chain. Powered by Solidity smart contracts and a modern React + Vite + TypeScript frontend.
 
-Currently, two official plugins are available:
+## 🌐 Live Demo
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+> Coming soon or replace with your deployed frontend URL.
 
-## Expanding the ESLint configuration
+## 🚀 Features
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- Create and view forum posts stored on-chain
+- Connect with MetaMask or other EVM-compatible wallets
+- Deployed on Optimism Testnet (and easily extendable to other EVM chains)
+- Clean and fast frontend using:
+  - **React**
+  - **Vite**
+  - **TypeScript**
+  - **ethers.js**
+  - **RainbowKit** / **wagmi** (if used)
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## 🛠 Tech Stack
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+| Layer     | Stack                        |
+|-----------|------------------------------|
+| Frontend  | React + Vite + TypeScript    |
+| Backend   | Solidity Smart Contracts     |
+| Network   | Optimism Testnet             |
+| Wallets   | MetaMask, WalletConnect, etc |
+| Tools     | Hardhat, Ethers.js, RainbowKit |
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## 📄 Smart Contract
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+- **Deployed Address (Optimism Testnet):**  
+  `0xd891A8dA619EDcb01c6cFc5599C62A0082951212`
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### Contract Functions
+- `createPost(string memory content)`  
+- `getPost(uint256 id)`  
+- `getAllPosts()`  
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Each post is stored as a struct with:
+- Author address
+- Timestamp
+- Content
+
+## 📦 Installation
+
+### Prerequisites
+
+- Node.js (v16+)
+- Yarn or npm
+- MetaMask or any Web3 wallet
+
+### 1. Clone the repo
+
+```bash
+git clone https://github.com/0xfdbu/evm-app.git
+cd web3-simple-forum
+npm install
+npm run dev
