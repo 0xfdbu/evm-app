@@ -16,7 +16,7 @@ https://evm-app.vercel.app/
   - **Vite**
   - **TypeScript**
   - **ethers.js**
-  - **RainbowKit** / **wagmi** (if used)
+  - **wagmi**
 
 ## 🛠 Tech Stack
 
